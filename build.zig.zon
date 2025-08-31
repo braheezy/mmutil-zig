@@ -1,0 +1,17 @@
+.{
+    .name = .mmutil_zig,
+    .version = "0.0.0",
+    .fingerprint = 0x48f0f83085749fcb, // Changing this has security and trust implications.
+    .minimum_zig_version = "0.14.1",
+    .dependencies = .{
+        .mmutil = .{
+            // .url = "https://github.com/blocksds/mmutil/archive/refs/tags/v1.13.1-blocks.tar.gz",
+            // .hash = "N-V-__8AAK3nCABTpaJJz_t6AY3lYUp5ng_CU6x2-pnirrjP",
+            .path = "../mmutil",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+    },
+}
