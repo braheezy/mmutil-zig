@@ -5,9 +5,8 @@
     .minimum_zig_version = "0.14.1",
     .dependencies = .{
         .mmutil = .{
-            // .url = "https://github.com/blocksds/mmutil/archive/refs/tags/v1.13.1-blocks.tar.gz",
-            // .hash = "N-V-__8AAK3nCABTpaJJz_t6AY3lYUp5ng_CU6x2-pnirrjP",
-            .path = "../mmutil",
+            .url = "https://github.com/blocksds/mmutil/archive/refs/tags/v1.13.1-blocks.tar.gz",
+            .hash = "N-V-__8AAK3nCABTpaJJz_t6AY3lYUp5ng_CU6x2-pnirrjP",
         },
     },
     .paths = .{
