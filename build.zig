@@ -16,8 +16,10 @@ pub fn build(b: *std.Build) void {
     // Create the executable
     const exe = b.addExecutable(.{
         .name = "mmutil-zig",
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+        }),
     });
 
     // Add all C source files from the mmutil 'source' directory
