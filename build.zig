@@ -13,38 +13,42 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
+    const exe_mod = b.createModule(.{
+        .target = target,
+        .optimize = optimize,
+        .link_libc = true,
+    });
+
     // Create the executable
     const exe = b.addExecutable(.{
         .name = "mmutil-zig",
-        .root_module = b.createModule(.{
-            .target = target,
-            .optimize = optimize,
-        }),
+        .root_module = exe_mod,
     });
 
     // Add all C source files from the mmutil 'source' directory
     const source_dir = mmutil_dep.path("source");
+    const data_dir = mmutil_dep.path("data");
 
-    exe.addCSourceFiles(.{
+    exe_mod.addIncludePath(source_dir);
+    exe_mod.addEmbedPath(data_dir);
+
+    exe_mod.addCSourceFiles(.{
         .root = source_dir,
         .files = &c_sources,
         .flags = &.{
-            "-std=gnu11",
+            "-std=c23",
             "-Wall",
             "-Wextra",
             "-Wno-multichar",
             "-Wno-unused-but-set-variable",
             "-Wno-sign-compare",
             "-O3",
-            "-DVERSION_ID=\"" ++ version ++ "\"",
+            "-DVERSION_STRING=\"" ++ version ++ "\"",
         },
     });
 
-    exe.addIncludePath(source_dir);
-
-    // Add system libraries - match exactly what the Makefile does
-    exe.linkSystemLibrary("m"); // math library
-    exe.linkLibC();
+    // Add system libraries
+    exe_mod.linkSystemLibrary("m", .{}); // math library
 
     // Install the executable
     b.installArtifact(exe);
