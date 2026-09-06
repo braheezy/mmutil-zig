@@ -32,6 +32,12 @@ pub fn build(b: *std.Build) void {
     exe_mod.addIncludePath(source_dir);
     exe_mod.addEmbedPath(data_dir);
 
+    // Strict C23 hides mkstemp and asprintf in Linux libc headers unless
+    // their feature set is explicitly enabled before including the headers.
+    if (target.result.os.tag == .linux) {
+        exe_mod.addCMacro("_GNU_SOURCE", "1");
+    }
+
     exe_mod.addCSourceFiles(.{
         .root = source_dir,
         .files = &c_sources,
